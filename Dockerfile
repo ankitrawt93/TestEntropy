@@ -1,95 +1,51 @@
-# -----------------------------
-# Base image with Python 3
-# -----------------------------
-FROM python:3.12-slim
+# syntax=docker/dockerfile:1
 
-# -----------------------------
-# Environment variables
-# -----------------------------
-ENV LANG=C.UTF-8 \
-    LC_ALL=C.UTF-8 \
-    ROBOT_HOME=/opt/robotframework \
-    DISPLAY=:99 \
-    PIP_NO_CACHE_DIR=1 \
-    DEBIAN_FRONTEND=noninteractive
+# Comments are provided throughout this file to help you get started.
+# If you need more help, visit the Dockerfile reference guide at
+# https://docs.docker.com/go/dockerfile-reference/
 
-# -----------------------------
-# Set working directory
-# -----------------------------
-WORKDIR $ROBOT_HOME
+# Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
 
-# -----------------------------
-# Install system dependencies
-# -----------------------------
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        wget \
-        curl \
-        unzip \
-        gnupg \
-        xvfb \
-        lsb-release \
-        sudo \
-        ca-certificates \
-        git \
-        firefox-esr \
-        gnupg2 \
-        apt-transport-https \
-    && rm -rf /var/lib/apt/lists/*
+ARG PYTHON_VERSION=3.10.12
+FROM python:${PYTHON_VERSION}-slim as base
 
-# -----------------------------
-# Install Google Chrome + ChromeDriver
-# -----------------------------
-RUN curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/google-linux-signing-key.gpg && \
-    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-linux-signing-key.gpg] http://dl.google.com/linux/chrome/deb/ stable main" \
-        > /etc/apt/sources.list.d/google-chrome.list && \
-    apt-get update && \
-    apt-get install -y google-chrome-stable && \
-    rm -rf /var/lib/apt/lists/*
+# Prevents Python from writing pyc files.
+ENV PYTHONDONTWRITEBYTECODE=1
 
-RUN CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d '.' -f1) && \
-    LATEST_DRIVER=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION) && \
-    wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/$LATEST_DRIVER/chromedriver_linux64.zip && \
-    unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
-    rm /tmp/chromedriver.zip && \
-    chmod +x /usr/local/bin/chromedriver
+# Keeps Python from buffering stdout and stderr to avoid situations where
+# the application crashes without emitting any logs due to buffering.
+ENV PYTHONUNBUFFERED=1
 
-# -----------------------------
-# Install Microsoft Edge + EdgeDriver
-# -----------------------------
-RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && \
-    install -o root -g root -m 644 microsoft.gpg /usr/share/keyrings/ && \
-    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/edge stable main" \
-        > /etc/apt/sources.list.d/microsoft-edge.list && \
-    apt-get update && \
-    apt-get install -y microsoft-edge-stable && \
-    rm -rf /var/lib/apt/lists/*
+WORKDIR /app
 
-RUN EDGE_VERSION=$(microsoft-edge --version | awk '{print $3}' | cut -d '.' -f1) && \
-    LATEST_EDGE_DRIVER=$(curl -s https://msedgedriver.azureedge.net/LATEST_RELEASE_$EDGE_VERSION) && \
-    wget -O /tmp/edgedriver.zip https://msedgedriver.azureedge.net/$LATEST_EDGE_DRIVER/edgedriver_linux64.zip && \
-    unzip /tmp/edgedriver.zip -d /usr/local/bin/ && \
-    rm /tmp/edgedriver.zip && \
-    chmod +x /usr/local/bin/msedgedriver
+# Create a non-privileged user that the app will run under.
+# See https://docs.docker.com/go/dockerfile-user-best-practices/
+ARG UID=10001
+RUN adduser \
+    --disabled-password \
+    --gecos "" \
+    --home "/nonexistent" \
+    --shell "/sbin/nologin" \
+    --no-create-home \
+    --uid "${UID}" \
+    appuser
 
-# -----------------------------
-# Install Python dependencies
-# -----------------------------
-COPY requirements.txt .
-RUN pip install --upgrade pip && \
-    pip install -r requirements.txt
+# Download dependencies as a separate step to take advantage of Docker's caching.
+# Leverage a cache mount to /root/.cache/pip to speed up subsequent builds.
+# Leverage a bind mount to requirements.txt to avoid having to copy them into
+# into this layer.
+RUN --mount=type=cache,target=/root/.cache/pip \
+    --mount=type=bind,source=requirements.txt,target=requirements.txt \
+    python -m pip install -r requirements.txt
 
-# -----------------------------
-# Copy Robot Framework project
-# -----------------------------
-COPY TestEntropy $ROBOT_HOME
+# Switch to the non-privileged user to run the application.
+USER appuser
 
-# -----------------------------
-# Expose VNC port (optional, for debugging)
-# -----------------------------
-EXPOSE 5900
+# Copy the source code into the container.
+COPY . .
 
-# -----------------------------
-# Default command: start Xvfb then run Robot tests
-# -----------------------------
-CMD ["sh", "-c", "Xvfb :99 -screen 0 1920x1080x24 & robot --variable BROWSER:${BROWSER} --outputdir reports TestEntropy/Tests/"]
+# Expose the port that the application listens on.
+EXPOSE 8000
+
+# Run the application.
+CMD Xvfb :99 -screen 0 1920x1080x24 & robot --variable BROWSER:${BROWSER} --outputdir reports TestEntropy/Tests/
