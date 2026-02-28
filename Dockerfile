@@ -76,10 +76,6 @@ RUN pip install -r requirements.txt
 # Copy your Robot Framework project
 COPY TestEntropy $ROBOT_HOME
 
-# Optional: Supervisor config for Xvfb
-RUN mkdir -p /etc/supervisor/conf.d
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
 # Expose VNC port (optional, for debugging)
 EXPOSE 5900
 
