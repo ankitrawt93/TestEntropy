@@ -24,6 +24,7 @@ ENV/
 
 # Results folder (if you want to generate reports locally)
 reports/
+*.png
 
 # IDE / editor files
 .idea/
