@@ -8,6 +8,7 @@ Register
     Input Text And Wait             id=username                                     ${user1}[username]
     Input Text And Wait             id=password                                     ${user1}[password]
     Input Text And Wait             id=confirmPassword                              ${user1}[password]
+    Sleep                           2s
     Wait Until Keyword Succeeds    10s    1s
                 ...    Click Element   xpath=//button[normalize-space()='Register']
     Wait until page contains        Successfully registered, you can log in now.

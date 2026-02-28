@@ -26,7 +26,7 @@ Open Chrome Browser
     ...    profile.password_manager_leak_detection=${False}
 
     Call Method    ${options}    add_experimental_option    prefs    ${prefs}
-#    Call Method    ${options}    add_argument    --headless
+    Call Method    ${options}    add_argument    --headless
     Call Method    ${options}    add_argument    --no-sandbox
 
     Call Method    ${options}    add_argument    --disable-notifications
