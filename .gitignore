@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pycache/
+*.egg-info/
+*.egg
+
+# Virtual environment
+TestEntropy/.venv/
+env/
+venv/
+ENV/
+
+# Robot Framework temporary/cache files
+.output/
+.log/
+.report/
+.robotcodecache/
+.rebot/
+*.html
+*.xml
+
+# Results folder (if you want to generate reports locally)
+reports/
+
+# IDE / editor files
+.idea/
+.vscode/
+*.iml
+*.sublime-project
+*.sublime-workspace
+__MACOSX/
+
+# macOS junk
+.DS_Store
+_MACOSX/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Browser drivers (they are installed via Docker)
+chromedriver
+geckodriver
+msedgedriver
+
+# Docker
+docker-compose.override.yml
