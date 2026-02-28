@@ -18,7 +18,6 @@ RUN apt-get update && apt-get install -y \
     unzip \
     gnupg \
     xvfb \
-    supervisor \
     lsb-release \
     sudo \
     software-properties-common \
