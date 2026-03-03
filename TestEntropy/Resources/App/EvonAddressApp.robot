@@ -29,7 +29,7 @@ Submit All Addresses from a Json
 
     ${data}=                    Utility.Read Json file                   ${file_path_json}
     ${records}=                 Set Variable    ${data}[addresses]
-    FOR    ${user}      IN     @{records}
+    FOR    ${user}      IN      @{records}
     EvonAddressPage.Submit The Evon Address Form And Verify Submission
          ...  ${user}[name]
          ...  ${user}[street]

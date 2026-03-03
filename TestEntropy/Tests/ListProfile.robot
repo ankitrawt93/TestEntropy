@@ -28,6 +28,6 @@ Run User Scenario
     Common.Begin Web Test
     ListProfileApp.User is landing on login page
     ListProfileApp.User is able to load all profiles    ${user}
-    Log    ${user}
+
     # This teardown is CRITICAL to prevent browser crashes
     [Teardown]    Common.End Web Test
