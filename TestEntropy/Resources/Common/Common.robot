@@ -32,13 +32,13 @@ Open Chrome Browser
     Call Method    ${options}    add_argument    --disable-notifications
     Call Method    ${options}    add_argument    --disable-infobars
     Call Method    ${options}    add_argument    --disable-save-password-bubble
+    Call Method    ${options}    add_argument    --ignore-certificate-errors
     Call Method    ${options}    add_argument    --disable-features\=PasswordLeakDetection
     Call Method    ${options}    add_argument    --disable-features\=SafetyCheck
     Call Method    ${options}    add_argument    --disable-client-side-phishing-detection
     Call Method    ${options}    add_argument    --safebrowsing-disable-download-protection
     Call Method    ${options}    add_argument    --disable-sync
     Call Method    ${options}    add_argument    --user-data-dir\=/tmp/chrome_automation
-
     Create Webdriver    Chrome    options=${options}
 
 # ------------------ FIREFOX ------------------
