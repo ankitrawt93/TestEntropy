@@ -26,3 +26,13 @@ ${MOBILE} =                             9999999999
 ${EMAIL} =                              test@test.com
 ${LOCATION} =                           san
 
+
+#Test data for evon address
+#${EVONNAME} =                               Test entry
+#${EVONSTREET} =                             9999999999
+#${EVONCITY} =                              test@test.com
+#${STATE} =                                  san
+#${ZIP} =                                  100000
+#${COUNTRY} =                                  san
+#${PHONE} =                                  9999999999
+

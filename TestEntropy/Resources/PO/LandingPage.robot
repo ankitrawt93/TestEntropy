@@ -18,5 +18,9 @@ Verify Swag labs Page is Loaded
 Verify PTA Page is Loaded
     Wait until page contains    Test login
 
+Verify Evon address page is loaded
+    Wait until page contains    Evon Technologies Pvt. Ltd. © 2026. All Rights Reserved.
+
+
 
 
