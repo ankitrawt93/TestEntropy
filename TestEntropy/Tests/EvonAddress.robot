@@ -8,7 +8,7 @@ Test Setup          Common.Begin Web Test
 Test Teardown       Common.End Web Test
 
 *** Variables ***
-${START_URL} =                          http://54.161.107.30/index.php?option=com_sppagebuilder&view=page&id=199
+${START_URL} =                          https://54.161.107.30/index.php?option=com_sppagebuilder&view=page&id=199
 ${file_path_csv} =                          ${EXECDIR}/addresses.csv
 ${file_path_json} =                          ${EXECDIR}/addresses.json
 
