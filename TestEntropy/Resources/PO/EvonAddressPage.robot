@@ -5,23 +5,31 @@ Library    OperatingSystem
 Library    Collections
 Library    String
 
+*** Variables ***
+${SUBMIT_ALL_FORM}      id=submitAllForms
+${COOKIE_ACCEPT_BUTTON}    //div[@id='easycookieinfo']//a[text()='Accept']
+
 *** Keywords ***
-Submit The Evon Address Form And Verify Submission
-    [Arguments]            ${name}    ${street}    ${city}    ${state}    ${zip}    ${country}      ${PHONE}
-    Input Text And Wait    id=name                                  ${name}
-    Input Text And Wait    id=street                                ${street}
-    Input Text And Wait    id=city                                  ${city}
-    Input Text And Wait    id=state                                 ${state}
-    Input Text And Wait    id=zip                                   ${zip}
-    Input Text And Wait    id=country                               ${country}
-    Input Text And Wait    id=phone                                 ${PHONE}
-    Click And Wait         xpath=//button[@class='submit-btn']
-    Wait until page contains                                        Form submitted successfully
+Fill all the Evon address forms
+    [Arguments]            ${index}     ${name}    ${street}    ${city}    ${state}    ${zip}    ${country}      ${PHONE}
 
-    # waiting for success message to disappear so we can start filling new address and not get confused for the success-
-    #-msg is for current address or previous
-    Wait until element is not visible    id=successMessage
+       ${form}=    Set Variable    (//div[@class='test-form'])[${index}]
+       Click and Wait                      id=addFormBtn
+       Input Text And Wait    ${form}//input[@name='name']      ${name}
+       Input Text And Wait    ${form}//input[@name='street']    ${street}
+       Input Text And Wait    ${form}//input[@name='city']      ${city}
+       Input Text And Wait    ${form}//input[@name='state']     ${state}
+       Input Text And Wait    ${form}//input[@name='zip']       ${zip}
+       Input Text And Wait    ${form}//input[@name='country']   ${country}
+       Input Text And Wait    ${form}//input[@name='phone']     ${phone}
 
+Click Submit All Forms and verify success message
+    ${visible}=    Run Keyword And Return Status
+    ...    Wait Until Element Is Visible    ${COOKIE_ACCEPT_BUTTON}    2s
+    IF    ${visible}
+        Click Element    ${COOKIE_ACCEPT_BUTTON}
+    END
+    Click And Wait    ${SUBMIT_ALL_FORM}
 
 *** Keywords ***
 Click And Wait
