@@ -7,10 +7,10 @@ Library  AppiumLibrary
 Page should be loaded properly
     Wait Until Element Is Visible    id=com.androidsample.generalstore:id/toolbar_title    10s
 
-Fill name and click on lets shop
-    [Arguments]    ${NAME}
-    ${el1} =    Set Variable     id=com.androidsample.generalstore:id/nameField
-    Input Text    ${el1}    ${NAME}
-    ${el2} =    Set Variable     id=com.androidsample.generalstore:id/btnLetsShop
-    Click Element    ${el2}
+Fill name, form and click on lets shop
+    [Arguments]    ${GENERAL_NAME}    ${GENERAL_COUNTRY_NAME} 
+    Click Element    id=android:id/text1
+    Click Element    android=new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().text("${GENERAL_COUNTRY_NAME}"))   
+    Input Text    id=com.androidsample.generalstore:id/nameField   ${GENERAL_NAME}  
+    Click Element       id=com.androidsample.generalstore:id/btnLetsShop
 

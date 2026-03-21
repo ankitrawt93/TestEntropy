@@ -36,3 +36,4 @@ ${LOCATION} =                           san
 #${COUNTRY} =                                  san
 #${PHONE} =                                  9999999999
 
+${CART_COUNT_INCREASE_BY} =                           2
