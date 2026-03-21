@@ -36,3 +36,8 @@ ${LOCATION} =                           san
 #${COUNTRY} =                                  san
 #${PHONE} =                                  9999999999
 
+# Apium data
+${GENERAL_NAME} =                    Test entry    
+${GENERAL_COUNTRY_NAME} =              Argentina
+
+

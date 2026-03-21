@@ -31,4 +31,6 @@ To give browser info run
 robot -d Results/$(date +%Y-%m-%d-%H:%M:%S) -v BROWSER:chrome  Tests/  
 in case of no browser info, chrome will run by default
 
+
 ---
+For mobile apks, download the apk from the latest releases, and keep the apk in APKs folder inside TestEntropyMobile folder.

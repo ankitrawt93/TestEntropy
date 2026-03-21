@@ -49,3 +49,6 @@ msedgedriver
 
 # Docker
 docker-compose.override.yml
+
+# APK
+*.apk
