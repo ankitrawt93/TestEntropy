@@ -4,7 +4,7 @@ Library    String
 Library    Collections
 
 *** Variables ***
-${BROWSER} =                            Firefox
+${BROWSER} =                            firefox
 
 #For basic login (using - ${var} and &{dict})
 &{ValidCredentials}                     Username=student    Password=Password123

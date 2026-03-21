@@ -12,6 +12,8 @@ ${START_URL} =                              https://54.161.107.30/index.php?opti
 ${file_path_csv} =                          ${EXECDIR}/addresses.csv
 ${file_path_json} =                         ${EXECDIR}/addresses.json
 
+
+
 #Before running these testcases make sure you have both CSV and Json files in your project root folder
 
 *** Test Cases ***

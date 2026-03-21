@@ -1,15 +1,18 @@
 *** Settings ***
 Library  SeleniumLibrary
+Library  String
 
 *** Variables ***
+${BROWSER}    chrome    # Default browser - will be overridden if specified in test file
 
 *** Keywords ***
 
 
 Begin Web Test
-    Run Keyword If    '${BROWSER}' == 'chrome'      Open Chrome Browser
-    ...    ELSE IF    '${BROWSER}' == 'firefox'     Open Firefox Browser
-    ...    ELSE IF    '${BROWSER}' == 'edge'        Open Edge Browser
+    ${browser_lower}=    Convert To Lowercase    ${BROWSER}
+    Run Keyword If    '${browser_lower}' == 'chrome'      Open Chrome Browser
+    ...    ELSE IF    '${browser_lower}' == 'firefox'     Open Firefox Browser
+    ...    ELSE IF    '${browser_lower}' == 'edge'        Open Edge Browser
     ...    ELSE    Fail    Unsupported browser: ${BROWSER}
 
     Maximize Browser Window
@@ -44,14 +47,15 @@ Open Chrome Browser
 # ------------------ FIREFOX ------------------
 
 Open Firefox Browser
-    ${profile}=    Evaluate    sys.modules['selenium.webdriver'].FirefoxProfile()    sys, selenium.webdriver
-    Call Method    ${profile}    set_preference    signon.rememberSignons    False
-    Call Method    ${profile}    set_preference    signon.autofillForms    False
-    Call Method    ${profile}    set_preference    signon.management.page.breach-alerts.enabled    False
-    Call Method    ${profile}    set_preference    signon.management.page.enabled    False
-
     ${options}=    Evaluate    sys.modules['selenium.webdriver'].FirefoxOptions()    sys, selenium.webdriver
-    Create Webdriver    Firefox    firefox_profile=${profile}    options=${options}
+    Call Method    ${options}    set_preference    signon.rememberSignons    False
+    Call Method    ${options}    set_preference    signon.autofillForms    False
+    Call Method    ${options}    set_preference    signon.management.page.breach-alerts.enabled    False
+    Call Method    ${options}    set_preference    signon.management.page.enabled    False
+    
+    ${service}=    Evaluate    sys.modules['selenium.webdriver.firefox.service'].Service(executable_path='/snap/bin/geckodriver')    sys, selenium.webdriver.firefox.service
+    
+    Create Webdriver    Firefox    options=${options}    service=${service}
 
 # ------------------ EDGE ------------------
 

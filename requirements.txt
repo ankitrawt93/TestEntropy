@@ -1,4 +1,8 @@
 robotframework==7.4.1
 robotframework-seleniumlibrary==6.8.0
 robotframework-pythonlibcore==4.5.0
+robotframework-appiumlibrary==3.2.1
 selenium>=4.13.0
+urllib3==2.0.7
+chardet==5.2.0
+requests>=2.31.0

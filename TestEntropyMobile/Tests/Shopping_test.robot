@@ -3,8 +3,8 @@
 Documentation    Test suite for the General Store application shopping flow.
 Resource         ../Resources/Common/Common.robot
 Resource         ../Resources/App/Shopping_test_App.robot
-Resource         ../Config/capabilities.robot
-Library             AppiumLibrary
+
+
 
 # This ensures the app opens automatically before the test starts
 Test Setup       Setup Mobile Session
